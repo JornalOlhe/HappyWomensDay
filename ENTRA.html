@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia das Mulheres</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ffb6d9,#ffcce6,#ffd6f0);
+overflow:hidden;
+text-align:center;
+color:white;
+padding:20px;
+}
+
+/* CONTAINER */
+
+.container{
+opacity:0;
+transition:opacity 2s;
+max-width:700px;
+width:100%;
+}
+
+.container.show{
+opacity:1;
+}
+
+/* TITULO */
+
+h1{
+font-size:clamp(2.2rem,7vw,4rem);
+text-shadow:0 0 15px #ff69b4;
+animation:pulse 3s infinite;
+line-height:1.2;
+}
+
+/* SUBTITULO */
+
+.sub{
+margin-top:18px;
+font-size:clamp(1rem,3.8vw,1.3rem);
+line-height:1.6;
+opacity:0.95;
+padding:0 10px;
+}
+
+/* FLORES */
+
+.flower{
+position:fixed;
+top:-10px;
+font-size:12px;
+pointer-events:none;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+0%{
+transform:translateY(-10vh);
+}
+100%{
+transform:translateY(110vh);
+}
+}
+
+/* CORAÇÕES */
+
+.heart{
+position:fixed;
+font-size:18px;
+animation:rise 2s forwards;
+pointer-events:none;
+}
+
+@keyframes rise{
+0%{
+transform:translateY(0) scale(1);
+opacity:1;
+}
+100%{
+transform:translateY(-80px) scale(1.5);
+opacity:0;
+}
+}
+
+/* TEXTO ANIMAÇÃO */
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+
+/* RESPONSIVIDADE EXTRA */
+
+@media(max-width:480px){
+
+body{
+padding:25px;
+}
+
+.sub{
+font-size:1rem;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container" id="mensagem">
+
+<h1>🌸 Feliz Dia das Mulheres 🌸</h1>
+
+<p class="sub">
+Hoje é o dia de lembrar o quanto as mulheres são incríveis.
+Fortes, inteligentes, engraçadas, e capazes de mudar o mundo. 💖  
+Obrigado por tornarem tudo mais bonito, leve e mais especial.
+</p>
+
+</div>
+
+<script>
+
+/* FLORES */
+
+function criarFlor(){
+
+const flor=document.createElement("div")
+
+flor.className="flower"
+
+flor.innerHTML="🌸"
+
+flor.style.left=Math.random()*100+"vw"
+
+flor.style.animationDuration=(Math.random()*3+4)+"s"
+
+document.body.appendChild(flor)
+
+setTimeout(()=>{
+flor.remove()
+},7000)
+
+}
+
+/* CHUVA DE FLORES */
+
+let chuva=setInterval(criarFlor,180)
+
+/* MOSTRAR LETREIRO */
+
+setTimeout(()=>{
+
+document.getElementById("mensagem").classList.add("show")
+
+},4000)
+
+/* INTERAÇÃO - CORAÇÕES */
+
+document.addEventListener("click",(e)=>{
+
+for(let i=0;i<3;i++){
+
+const heart=document.createElement("div")
+
+heart.className="heart"
+
+heart.innerHTML="💖"
+
+heart.style.left=e.clientX+"px"
+
+heart.style.top=e.clientY+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>{
+heart.remove()
+},2000)
+
+}
+
+})
+
+</script>
+
+</body>
+</html>
