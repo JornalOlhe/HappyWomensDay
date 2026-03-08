@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dia das Mulheres</title>
+<title>Feliz Dia das Mulheres</title>
 
 <style>
 
@@ -26,6 +26,23 @@ color:white;
 padding:20px;
 }
 
+/* PARTICULAS */
+
+.particle{
+position:fixed;
+width:4px;
+height:4px;
+background:#ffffff88;
+border-radius:50%;
+animation:float 12s linear infinite;
+pointer-events:none;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-10vh);}
+}
+
 /* CONTAINER */
 
 .container{
@@ -43,9 +60,13 @@ opacity:1;
 
 h1{
 font-size:clamp(2.2rem,7vw,4rem);
-text-shadow:0 0 15px #ff69b4;
-animation:pulse 3s infinite;
 line-height:1.2;
+animation:pulse 3s infinite, glow 4s infinite alternate;
+}
+
+@keyframes glow{
+from{ text-shadow:0 0 10px #ff69b4;}
+to{ text-shadow:0 0 30px #ff1493;}
 }
 
 /* SUBTITULO */
@@ -56,6 +77,24 @@ font-size:clamp(1rem,3.8vw,1.3rem);
 line-height:1.6;
 opacity:0.95;
 padding:0 10px;
+}
+
+/* BOTAO */
+
+.botao{
+margin-top:30px;
+padding:12px 28px;
+border:none;
+border-radius:30px;
+background:white;
+color:#ff1493;
+font-size:1rem;
+cursor:pointer;
+transition:0.3s;
+}
+
+.botao:hover{
+transform:scale(1.1);
 }
 
 /* FLORES */
@@ -69,12 +108,8 @@ animation:fall linear forwards;
 }
 
 @keyframes fall{
-0%{
-transform:translateY(-10vh);
-}
-100%{
-transform:translateY(110vh);
-}
+0%{transform:translateY(-10vh);}
+100%{transform:translateY(110vh);}
 }
 
 /* CORAÇÕES */
@@ -92,31 +127,15 @@ transform:translateY(0) scale(1);
 opacity:1;
 }
 100%{
-transform:translateY(-80px) scale(1.5);
+transform:translateY(-100px) scale(1.6);
 opacity:0;
 }
 }
-
-/* TEXTO ANIMAÇÃO */
 
 @keyframes pulse{
 0%{transform:scale(1);}
 50%{transform:scale(1.05);}
 100%{transform:scale(1);}
-}
-
-/* RESPONSIVIDADE EXTRA */
-
-@media(max-width:480px){
-
-body{
-padding:25px;
-}
-
-.sub{
-font-size:1rem;
-}
-
 }
 
 </style>
@@ -129,74 +148,140 @@ font-size:1rem;
 <h1>🌸 Feliz Dia das Mulheres 🌸</h1>
 
 <p class="sub">
-Hoje é o dia de lembrar o quanto as mulheres são incríveis.
-Fortes, inteligentes, engraçadas, e capazes de mudar o mundo. 💖  
-Obrigado por tornarem tudo mais bonito, leve e mais especial.
+Hoje é dia de celebrar mulheres incríveis.  
+Fortes, inteligentes, engraçadas e que deixam o mundo muito mais bonito só por existirem. 💖  
+Vocês fazem tudo ficar mais leve e especial.
 </p>
+
+<button class="botao" onclick="surpresa()">
+💌 Clique para uma surpresa
+</button>
 
 </div>
 
 <script>
 
-/* FLORES */
+/* PARTICULAS FUNDO */
+
+function criarParticula(){
+
+const p=document.createElement("div")
+p.className="particle"
+
+p.style.left=Math.random()*100+"vw"
+p.style.animationDuration=(Math.random()*10+10)+"s"
+
+document.body.appendChild(p)
+
+setTimeout(()=>p.remove(),20000)
+
+}
+
+setInterval(criarParticula,500)
+
+/* FLORES CAINDO */
 
 function criarFlor(){
 
 const flor=document.createElement("div")
 
 flor.className="flower"
-
 flor.innerHTML="🌸"
 
 flor.style.left=Math.random()*100+"vw"
-
 flor.style.animationDuration=(Math.random()*3+4)+"s"
 
 document.body.appendChild(flor)
 
-setTimeout(()=>{
-flor.remove()
-},7000)
+setTimeout(()=>flor.remove(),7000)
 
 }
 
-/* CHUVA DE FLORES */
+setInterval(criarFlor,200)
 
-let chuva=setInterval(criarFlor,180)
-
-/* MOSTRAR LETREIRO */
+/* MOSTRAR TEXTO */
 
 setTimeout(()=>{
-
 document.getElementById("mensagem").classList.add("show")
-
 },4000)
 
-/* INTERAÇÃO - CORAÇÕES */
+/* CLIQUE CORAÇÕES */
 
-document.addEventListener("click",(e)=>{
-
-for(let i=0;i<3;i++){
+function criarCoracao(x,y){
 
 const heart=document.createElement("div")
 
 heart.className="heart"
-
 heart.innerHTML="💖"
 
-heart.style.left=e.clientX+"px"
-
-heart.style.top=e.clientY+"px"
+heart.style.left=x+"px"
+heart.style.top=y+"px"
 
 document.body.appendChild(heart)
 
-setTimeout(()=>{
-heart.remove()
-},2000)
+setTimeout(()=>heart.remove(),2000)
 
 }
 
+document.addEventListener("click",(e)=>{
+for(let i=0;i<3;i++){
+criarCoracao(e.clientX,e.clientY)
+}
 })
+
+/* CORAÇÕES SEGUINDO O DEDO */
+
+document.addEventListener("mousemove",(e)=>{
+if(Math.random()<0.2){
+criarCoracao(e.clientX,e.clientY)
+}
+})
+
+/* BOTAO SURPRESA */
+
+function surpresa(){
+
+/* explosão flores */
+
+for(let i=0;i<30;i++){
+
+const flor=document.createElement("div")
+
+flor.className="flower"
+flor.innerHTML="🌸"
+
+flor.style.left=Math.random()*100+"vw"
+flor.style.animationDuration="3s"
+
+document.body.appendChild(flor)
+
+setTimeout(()=>flor.remove(),4000)
+
+}
+
+/* chuva corações */
+
+for(let i=0;i<30;i++){
+
+setTimeout(()=>{
+
+const heart=document.createElement("div")
+
+heart.className="heart"
+heart.innerHTML="💗"
+
+heart.style.left=Math.random()*100+"vw"
+heart.style.top=Math.random()*40+"vh"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>heart.remove(),2000)
+
+},i*120)
+
+}
+
+}
 
 </script>
 
